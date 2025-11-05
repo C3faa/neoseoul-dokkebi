@@ -8,7 +8,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "fabric-loom") {
-                // ВАЖНО: корректный модуль плагина
+                // ВАЖНО: правильные координаты Gradle-плагина
                 useModule("fabric-loom:fabric-loom.gradle.plugin:${requested.version}")
             }
         }
