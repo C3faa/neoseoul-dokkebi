@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "neoseoul",
+  "version": "${version}",
+  "name": "NeoSeoul: Dokkebi",
+  "description": "Новый моб Dokkebi для рифтов.",
+  "authors": [
+    "Cefa & ChatGPT"
+  ],
+  "license": "MIT",
+  "icon": "assets/neoseoul/icons.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.neoseoul.NeoSeoulMod"
+    ],
+    "client": [
+      "com.neoseoul.client.NeoSeoulClient"
+    ]
+  },
+  "mixins": [
+    "neoseoul.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.22",
+    "fabric-api": "*",
+    "minecraft": "1.20.1"
+  }
+}
