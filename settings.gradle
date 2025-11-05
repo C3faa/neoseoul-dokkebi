@@ -8,7 +8,8 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "fabric-loom") {
-                useModule("net.fabricmc:fabric-loom:${requested.version}")
+                // ВАЖНО: корректный модуль плагина
+                useModule("fabric-loom:fabric-loom.gradle.plugin:${requested.version}")
             }
         }
     }
