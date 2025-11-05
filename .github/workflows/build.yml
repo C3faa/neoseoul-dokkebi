@@ -17,30 +17,21 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # Создаём рабочий Gradle Wrapper 8.2 (если его нет в репо)
-      - name: Prepare Gradle Wrapper 8.2
-        run: |
-          set -e
-          mkdir -p gradle/wrapper
-          cat > gradle/wrapper/gradle-wrapper.properties <<'EOF'
-          distributionBase=GRADLE_USER_HOME
-          distributionPath=wrapper/dists
-          distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-bin.zip
-          zipStoreBase=GRADLE_USER_HOME
-          zipStorePath=wrapper/dists
-          EOF
+      # Устанавливаем Gradle без wrapper и используем его
+      - name: Setup Gradle 8.2
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 8.2
 
-          curl -fSL https://raw.githubusercontent.com/gradle/gradle/v8.2/gradle/wrapper/gradle-wrapper.jar -o gradle/wrapper/gradle-wrapper.jar
-          curl -fSL https://raw.githubusercontent.com/gradle/gradle/v8.2/gradlew -o gradlew
-          curl -fSL https://raw.githubusercontent.com/gradle/gradle/v8.2/gradlew.bat -o gradlew.bat
-          chmod +x gradlew
+      # Генерируем корректный wrapper внутри репозитория
+      - name: Generate Gradle wrapper
+        run: gradle wrapper --gradle-version 8.2
 
-          # Быстрая проверка, что это не 404 html
-          head -n 1 gradlew
-
-      - name: Build
+      # Сборка с логами
+      - name: Build with wrapper
         run: ./gradlew build --stacktrace --info
 
+      # Готовые JAR'ы как артефакты
       - name: Upload jars
         uses: actions/upload-artifact@v4
         with:
