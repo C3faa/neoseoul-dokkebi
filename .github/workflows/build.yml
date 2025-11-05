@@ -7,9 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # дубль на всякий случай — задаём память ещё и через окружение
-      JAVA_TOOL_OPTIONS: "-Xmx3g -Xms512m -XX:MaxMetaspaceSize=512m -Dfile.encoding=UTF-8"
-      GRADLE_OPTS: "-Dorg.gradle.jvmargs='-Xmx3g -Xms512m -XX:MaxMetaspaceSize=512m -Dfile.encoding=UTF-8'"
+      JAVA_TOOL_OPTIONS: "-Xmx4g -Xms512m -Dfile.encoding=UTF-8"
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs='-Xmx4g -Xms512m -Dfile.encoding=UTF-8'"
 
     steps:
       - uses: actions/checkout@v4
@@ -17,16 +16,16 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'     # Loom 1.11.x требует 21
 
       - uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: 8.2
+          gradle-version: 8.14   # совместимо с Loom 1.11.x
 
       - name: Generate Gradle wrapper
-        run: gradle wrapper --gradle-version 8.2
+        run: gradle wrapper --gradle-version 8.14
 
-      - name: Build (no daemon, refresh deps)
+      - name: Build
         run: ./gradlew clean build --no-daemon --refresh-dependencies --stacktrace --info
 
       - uses: actions/upload-artifact@v4
