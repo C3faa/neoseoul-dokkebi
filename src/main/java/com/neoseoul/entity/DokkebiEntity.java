@@ -6,6 +6,8 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
 
 public class DokkebiEntity extends ZombieEntity {
@@ -16,7 +18,8 @@ public class DokkebiEntity extends ZombieEntity {
         this.setCanPickUpLoot(false);
     }
 
-    @Override protected void initGoals() {
+    @Override
+    protected void initGoals() {
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(2, new MeleeAttackGoal(this, 1.1D, false));
         this.goalSelector.add(5, new WanderAroundGoal(this, 1.0D));
@@ -25,9 +28,14 @@ public class DokkebiEntity extends ZombieEntity {
         this.targetSelector.add(3, new RevengeGoal(this));
     }
 
-    @Override public boolean burnsInDaylight() { return false; }
+    @Override
+    public boolean burnsInDaylight() {
+        return false;
+    }
 
-    @Override protected void initEquipment(net.minecraft.util.math.random.Random random, float difficulty) {
+    @Override
+    protected void initEquipment(Random random, LocalDifficulty difficulty) {
+        super.initEquipment(random, difficulty);
         this.equipStack(EquipmentSlot.HEAD, Items.LEATHER_HELMET.getDefaultStack());
         this.setEquipmentDropChance(EquipmentSlot.HEAD, 0.0f);
     }
